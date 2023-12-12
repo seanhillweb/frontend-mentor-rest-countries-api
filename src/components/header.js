@@ -7,6 +7,7 @@ export default function Header() {
         <div className="flex flex-row items-center justify-between">
           <h1 className="text-base font-bold md:text-xl lg:text-2xl">
             Where in the world?
+            <span className="sr-only">Countries API Application</span>
           </h1>
           <ThemeSwitch />
         </div>
