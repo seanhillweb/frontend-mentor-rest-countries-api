@@ -5,7 +5,9 @@ export default function Header() {
     <header className="dark:bg-brand-darker-blue bg-white py-6 shadow-sm">
       <div className="container">
         <div className="flex flex-row items-center justify-between">
-          <h1 className="text-2xl font-bold">Where in the world?</h1>
+          <h1 className="text-base font-bold md:text-xl lg:text-2xl">
+            Where in the world?
+          </h1>
           <ThemeSwitch />
         </div>
       </div>
