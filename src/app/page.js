@@ -7,17 +7,15 @@ import Link from "next/link";
 import FormSearch from "@/components/form-search";
 import FormFilter from "@/components/form-filter";
 
-const allRestCountriesUrl = "https://restcountries.com/v3.1/all";
+const allCountriesUrl = "https://restcountries.com/v3.1/all/";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [isAllCountires, setIsAllCountries] = useState([]);
 
-  console.log(isAllCountires);
-
   const generateCountries = async () => {
     try {
-      const response = await axios.get(allRestCountriesUrl);
+      const response = await axios.get(allCountriesUrl);
       setIsAllCountries(response.data);
     } catch (error) {
       console.error(error);
@@ -50,9 +48,7 @@ export default function Home() {
               const region = country.region;
               const capital = country.capital;
               const flag = country.flags.png;
-              const key = country.name.common
-                .replace(/\s+/g, "-")
-                .toLowerCase();
+              const key = country.cca2.toLowerCase();
               return (
                 <li key={index}>
                   <div className="dark:bg-brand-darker-blue flex h-full flex-col overflow-hidden rounded-md bg-white shadow-sm">
