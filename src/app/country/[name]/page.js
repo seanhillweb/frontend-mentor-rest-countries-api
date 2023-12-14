@@ -1,3 +1,9 @@
 export default function CountryDetail({ params }) {
-  return <h2>Country Detail Page: </h2>;
+  return (
+    <main className="py-12" aria-label="Content">
+      <div className="mx-auto max-w-[1352px] px-[13px] md:px-[26px] lg:px-[38px]">
+        <h2>Country Detail Page: {params.name}</h2>
+      </div>
+    </main>
+  );
 }

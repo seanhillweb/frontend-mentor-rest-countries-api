@@ -1,8 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
+import FormSearch from "@/components/form-search";
+import FormFilter from "@/components/form-filter";
 
 const allRestCountriesUrl = "https://restcountries.com/v3.1/all";
 
@@ -27,45 +30,62 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="py-8" aria-label="Content">
-      <div className="container">
-        <h2>Search</h2>
-        <h2>Countries List</h2>
+    <main className="py-12" aria-label="Content">
+      <div className="mx-auto max-w-[1352px] px-[13px] md:px-[26px] lg:px-[38px]">
+        <h2 className="sr-only">Search and Filter</h2>
+        <div className="mb-12 flex flex-row justify-between">
+          <FormSearch className="w-full max-w-[480px]" />
+          <FormFilter />
+        </div>
+        <h2 className="sr-only">Countries</h2>
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <ul className="grid grid-cols-4 items-stretch gap-8">
-            {isAllCountires.map((country, index) => (
-              <li key={index}>
-                <div className="flex-column dark:bg-brand-darker-blue flex h-full overflow-hidden rounded-lg bg-white shadow-sm">
-                  <div>
-                    {/* <Image
-                      src={country.flags.png}
-                      width={500}
-                      height={500}
-                      alt="Picture of the author"
-                    /> */}
+          <ul className="grid grid-cols-1 items-stretch gap-[26px] sm:grid-cols-2 sm:gap-[38px] md:grid-cols-3 md:gap-[57px] lg:grid-cols-4 lg:gap-[76px]">
+            {isAllCountires.map((country, index) => {
+              const name = country.name.common;
+              const population = Number(country.population).toLocaleString(
+                "en"
+              );
+              const region = country.region;
+              const capital = country.capital;
+              const flag = country.flags.png;
+              const key = country.name.common
+                .replace(/\s+/g, "-")
+                .toLowerCase();
+              return (
+                <li key={index}>
+                  <div className="dark:bg-brand-darker-blue flex h-full flex-col overflow-hidden rounded-md bg-white shadow-sm">
+                    <div className="relative aspect-[16/10] w-full">
+                      <Image
+                        src={flag}
+                        width={320}
+                        height={180}
+                        alt={name + `country flag`}
+                        className="absolute h-full w-full object-cover"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <h3 className="mb-3 text-xl font-extrabold">{name}</h3>
+                      <p className="mb-1 text-sm">
+                        <span className="font-semibold">Population:</span>{" "}
+                        {population}
+                      </p>
+                      <p className="mb-1 text-sm">
+                        <span className="font-semibold">Region:</span> {region}
+                      </p>
+                      <p className="mb-1 text-sm">
+                        <span className="font-semibold">Capital:</span>{" "}
+                        {capital}
+                      </p>
+                      <p>
+                        <Link href={`/country/${key}`}>View</Link>
+                      </p>
+                    </div>
                   </div>
-                  <div className="p-6">
-                    <h3 className="mb-3 text-xl font-extrabold">
-                      {country.name.common}
-                    </h3>
-                    <p className="mb-1 text-sm">
-                      <span className="font-semibold">Population:</span>{" "}
-                      {country.population}
-                    </p>
-                    <p className="mb-1 text-sm">
-                      <span className="font-semibold">Region:</span>{" "}
-                      {country.region}
-                    </p>
-                    <p className="mb-1 text-sm">
-                      <span className="font-semibold">Capital:</span>{" "}
-                      {country.capital}
-                    </p>
-                  </div>
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

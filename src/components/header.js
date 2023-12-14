@@ -2,8 +2,11 @@ import { ThemeSwitch } from "@/components/theme-switch";
 
 export default function Header() {
   return (
-    <header className="dark:bg-brand-darker-blue bg-white py-6 shadow-sm">
-      <div className="container">
+    <header
+      className="dark:bg-brand-darker-blue bg-white py-6 shadow-sm"
+      aria-label="Header"
+    >
+      <div className="mx-auto max-w-[1352px] px-[13px] md:px-[26px] lg:px-[38px]">
         <div className="flex flex-row items-center justify-between">
           <h1 className="text-base font-bold md:text-xl lg:text-2xl">
             Where in the world?
