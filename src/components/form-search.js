@@ -32,10 +32,10 @@ export default function FormSearch({ className }) {
           id="search"
           name="search"
           placeholder="Search for a country..."
-          className={`w-full rounded py-[18px] pl-[72px] pr-[18px] text-sm leading-none shadow-md focus:ring-transparent ${
+          className={`w-full rounded-md py-[18px] pl-[72px] pr-[18px] text-sm leading-none shadow-md focus:ring-transparent ${
             errors.search
               ? "border-red-500 hover:border-red-500 focus:border-red-500"
-              : "dark:bg-brand-darker-blue border-transparent bg-white"
+              : "dark:bg-brand-darker-blue placeholder:text-brand-darker-blue dark:placeholder:text-brand-light-gray border-transparent bg-white"
           }`}
           aria-invalid={errors.search ? "true" : "false"}
         />

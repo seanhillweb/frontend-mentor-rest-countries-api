@@ -31,8 +31,8 @@ export default function Home() {
     <main className="py-12" aria-label="Content">
       <div className="mx-auto max-w-[1352px] px-[13px] md:px-[26px] lg:px-[38px]">
         <h2 className="sr-only">Search and Filter</h2>
-        <div className="mb-12 flex flex-row justify-between">
-          <FormSearch className="w-full max-w-[480px]" />
+        <div className="mb-12 flex flex-col justify-between gap-4 md:flex-row">
+          <FormSearch className="w-full md:max-w-[480px]" />
           <FormFilter />
         </div>
         <h2 className="sr-only">Countries</h2>
@@ -47,38 +47,43 @@ export default function Home() {
               );
               const region = country.region;
               const capital = country.capital;
-              const flag = country.flags.png;
+              const flag = country.flags.svg;
               const key = country.cca2.toLowerCase();
               return (
                 <li key={index}>
-                  <div className="dark:bg-brand-darker-blue flex h-full flex-col overflow-hidden rounded-md bg-white shadow-sm">
-                    <div className="relative aspect-[16/10] w-full">
-                      <Image
-                        src={flag}
-                        width={320}
-                        height={180}
-                        alt={name + `country flag`}
-                        className="absolute h-full w-full object-cover"
-                      />
+                  <Link
+                    href={`/country/${key}`}
+                    aria-label={`Learn more about ` + name}
+                    className="group"
+                  >
+                    <div className="dark:bg-brand-darker-blue flex h-full flex-col overflow-hidden rounded-md bg-white shadow-md transition-transform duration-75 ease-in-out group-hover:shadow-xl md:group-hover:scale-105 lg:group-hover:scale-110">
+                      <div className="relative aspect-[16/10] w-full">
+                        <Image
+                          src={flag}
+                          alt={name + ` country flag`}
+                          fill={true}
+                          className="absolute h-full w-full object-cover"
+                        />
+                      </div>
+                      <div className="p-6">
+                        <h3 className="mb-3 text-xl font-extrabold group-hover:underline group-focus:underline">
+                          {name}
+                        </h3>
+                        <p className="mb-1 text-sm">
+                          <span className="font-semibold">Population:</span>{" "}
+                          {population}
+                        </p>
+                        <p className="mb-1 text-sm">
+                          <span className="font-semibold">Region:</span>{" "}
+                          {region ? region : "N/A"}
+                        </p>
+                        <p className="mb-1 text-sm">
+                          <span className="font-semibold">Capital:</span>{" "}
+                          {capital ? capital : "N/A"}
+                        </p>
+                      </div>
                     </div>
-                    <div className="p-6">
-                      <h3 className="mb-3 text-xl font-extrabold">{name}</h3>
-                      <p className="mb-1 text-sm">
-                        <span className="font-semibold">Population:</span>{" "}
-                        {population}
-                      </p>
-                      <p className="mb-1 text-sm">
-                        <span className="font-semibold">Region:</span> {region}
-                      </p>
-                      <p className="mb-1 text-sm">
-                        <span className="font-semibold">Capital:</span>{" "}
-                        {capital}
-                      </p>
-                      <p>
-                        <Link href={`/country/${key}`}>View</Link>
-                      </p>
-                    </div>
-                  </div>
+                  </Link>
                 </li>
               );
             })}

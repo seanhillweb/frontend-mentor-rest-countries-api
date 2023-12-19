@@ -27,10 +27,10 @@ export default function FormFilter({ className }) {
           {...register("filter", { required: "Cannot be blank" })}
           id="filter"
           name="filter"
-          className={`w-full rounded py-[18px] pl-[18px] pr-[72px] text-sm leading-none shadow-md focus:ring-transparent ${
+          className={`w-full rounded-md py-[18px] pl-[18px] pr-[72px] text-sm leading-none shadow-md focus:ring-transparent ${
             errors.search
               ? "border-red-500 hover:border-red-500 focus:border-red-500"
-              : "dark:bg-brand-darker-blue border-transparent bg-white"
+              : "dark:bg-brand-darker-blue placeholder:text-brand-darker-blue dark:placeholder:text-brand-light-gray border-transparent bg-white"
           }`}
           aria-invalid={errors.search ? "true" : "false"}
           defaultValue={""}
