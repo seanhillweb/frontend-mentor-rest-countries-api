@@ -4,7 +4,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 
-export default function FormFilter({ className }) {
+export default function FormFilter({ state, className }) {
   const {
     register,
     handleSubmit,

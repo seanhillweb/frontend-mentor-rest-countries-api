@@ -8,15 +8,18 @@ import FormSearch from "@/components/form-search";
 import FormFilter from "@/components/form-filter";
 
 const allCountriesUrl = "https://restcountries.com/v3.1/all/";
+const filteredCountriesUrl = "https://restcountries.com/v3.1/region/";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  const [isAllCountires, setIsAllCountries] = useState([]);
+  const [isAllCountries, setIsAllCountries] = useState([]);
+  const [isFilteredCountries, setIsFilteredCountries] = useState([]);
 
   const generateCountries = async () => {
     try {
       const response = await axios.get(allCountriesUrl);
       setIsAllCountries(response.data);
+      setIsFilteredCountries(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -40,7 +43,7 @@ export default function Home() {
           <p>Loading...</p>
         ) : (
           <ul className="grid grid-cols-1 items-stretch gap-[26px] sm:grid-cols-2 sm:gap-[38px] md:grid-cols-3 md:gap-[57px] lg:grid-cols-4 lg:gap-[76px]">
-            {isAllCountires.map((country, index) => {
+            {isFilteredCountries.map((country, index) => {
               const name = country.name.common;
               const population = Number(country.population).toLocaleString(
                 "en"

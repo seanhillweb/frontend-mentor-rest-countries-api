@@ -4,14 +4,17 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { ButtonBack } from "@/components/button-back";
+import Link from "next/link";
 
 const countryUrl = "https://restcountries.com/v3.1/alpha/";
 
 export default function CountryDetail({ params }) {
   const [loading, setLoading] = useState(true);
   const [isCountry, setIsCountry] = useState({});
+  const [isBorderCountry, setIsBorderCountry] = useState([]);
 
   console.log(isCountry);
+  console.log(isBorderCountry);
 
   const generateCountry = async () => {
     try {
@@ -23,8 +26,25 @@ export default function CountryDetail({ params }) {
     setLoading(false);
   };
 
+  const generateBorderCountry = async () => {
+    try {
+      const response = await axios.get(`${countryUrl}/${params.code}`);
+      response.data[0].borders?.map(async (item) => {
+        const responseBorder = await axios.get(`${countryUrl}/${item}`);
+        setIsBorderCountry((value) => [
+          ...value,
+          responseBorder.data[0].cca2.toLowerCase(),
+        ]);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     generateCountry();
+    generateBorderCountry();
   }, []);
 
   return (
@@ -42,7 +62,7 @@ export default function CountryDetail({ params }) {
                 src={isCountry.flags.svg}
                 alt={isCountry.name.common + ` country flag`}
                 fill={true}
-                className="object-contain"
+                className="w-auto object-contain"
               />
             </div>
             <div className="flex w-full flex-col">
@@ -97,7 +117,11 @@ export default function CountryDetail({ params }) {
                   aria-label="Border countries"
                 >
                   <span className="font-semibold">Border Countries:</span>
-                  <a href="/">Test</a>
+                  {isBorderCountry?.map((value, index) => (
+                    <Link key={index} href={`/country/${value}`}>
+                      {value}
+                    </Link>
+                  ))}
                 </nav>
               )}
             </div>
