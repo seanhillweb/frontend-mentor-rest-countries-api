@@ -5,8 +5,10 @@ import axios from "axios";
 import Image from "next/image";
 import { ButtonBack } from "@/components/button-back";
 import Link from "next/link";
+import { formatUrl } from "@/utils/format";
 
-const countryUrl = "https://restcountries.com/v3.1/alpha/";
+const countryUrl = "https://restcountries.com/v3.1/name";
+const borderCountryUrl = "https://restcountries.com/v3.1/alpha";
 
 export default function CountryDetail({ params }) {
   const [loading, setLoading] = useState(true);
@@ -18,7 +20,9 @@ export default function CountryDetail({ params }) {
 
   const generateCountry = async () => {
     try {
-      const response = await axios.get(`${countryUrl}/${params.code}`);
+      const response = await axios.get(
+        `${countryUrl}/${params.name}?fullText=true`
+      );
       setIsCountry(response.data[0]);
     } catch (error) {
       console.error(error);
@@ -28,12 +32,14 @@ export default function CountryDetail({ params }) {
 
   const generateBorderCountry = async () => {
     try {
-      const response = await axios.get(`${countryUrl}/${params.code}`);
+      const response = await axios.get(
+        `${countryUrl}/${params.name}?fullText=true`
+      );
       response.data[0].borders?.map(async (item) => {
-        const responseBorder = await axios.get(`${countryUrl}/${item}`);
+        const responseBorder = await axios.get(`${borderCountryUrl}/${item}`);
         setIsBorderCountry((value) => [
           ...value,
-          responseBorder.data[0].cca2.toLowerCase(),
+          responseBorder.data[0].name.common,
         ]);
       });
     } catch (error) {
@@ -60,7 +66,7 @@ export default function CountryDetail({ params }) {
             <div className="relative aspect-[16/10] w-full">
               <Image
                 src={isCountry.flags.svg}
-                alt={isCountry.name.common + ` country flag`}
+                alt={isCountry.flags.alt}
                 fill={true}
                 className="w-auto object-contain"
               />
@@ -112,17 +118,22 @@ export default function CountryDetail({ params }) {
                 </p>
               </div>
               {isCountry?.borders && (
-                <nav
-                  className="mt-16 flex flex-row items-center gap-4"
-                  aria-label="Border countries"
-                >
-                  <span className="font-semibold">Border Countries:</span>
-                  {isBorderCountry?.map((value, index) => (
-                    <Link key={index} href={`/country/${value}`}>
-                      {value}
-                    </Link>
-                  ))}
-                </nav>
+                <div className="mt-20 flex flex-row items-start gap-4">
+                  <span className="flex-none font-semibold">
+                    Border Countries:
+                  </span>
+                  <nav className="flex flex-row flex-wrap items-center gap-4">
+                    {isBorderCountry?.map((value, index) => (
+                      <Link
+                        key={index}
+                        href={`/country/${formatUrl(value)}`}
+                        className="rounded-md border-transparent bg-white px-[20px] py-[8px] text-sm leading-none text-brand-darker-blue shadow-md transition-transform duration-75 ease-in-out hover:scale-105 hover:shadow-xl focus:ring-transparent dark:bg-brand-darker-blue dark:text-brand-light-gray"
+                      >
+                        {value}
+                      </Link>
+                    ))}
+                  </nav>
+                </div>
               )}
             </div>
           </div>

@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import FormSearch from "@/components/form-search";
 import FormFilter from "@/components/form-filter";
+import { formatUrl } from "@/utils/format";
 
 const allCountriesUrl = "https://restcountries.com/v3.1/all/";
 const filteredCountriesUrl = "https://restcountries.com/v3.1/region/";
@@ -14,6 +15,8 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [isAllCountries, setIsAllCountries] = useState([]);
   const [isFilteredCountries, setIsFilteredCountries] = useState([]);
+
+  console.log(isFilteredCountries);
 
   const generateCountries = async () => {
     try {
@@ -51,19 +54,19 @@ export default function Home() {
               const region = country.region;
               const capital = country.capital;
               const flag = country.flags.svg;
-              const key = country.cca2.toLowerCase();
+              const alt = country.flags.alt;
               return (
                 <li key={index}>
                   <Link
-                    href={`/country/${key}`}
+                    href={`/country/${formatUrl(name)}`}
                     aria-label={`Learn more about ` + name}
                     className="group"
                   >
-                    <div className="dark:bg-brand-darker-blue flex h-full flex-col overflow-hidden rounded-md bg-white shadow-md transition-transform duration-75 ease-in-out group-hover:shadow-xl md:group-hover:scale-105 lg:group-hover:scale-110">
+                    <div className="flex h-full flex-col overflow-hidden rounded-md bg-white shadow-md transition-transform duration-75 ease-in-out group-hover:shadow-xl dark:bg-brand-darker-blue md:group-hover:scale-105 lg:group-hover:scale-110">
                       <div className="relative aspect-[16/10] w-full">
                         <Image
                           src={flag}
-                          alt={name + ` country flag`}
+                          alt={alt}
                           fill={true}
                           className="absolute h-full w-full object-cover"
                         />
