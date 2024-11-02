@@ -17,8 +17,8 @@ export function AppContextProvider({ children }) {
     dispatch({ type: ACTIONS.SEARCH_COUNTRIES, payload: value });
   };
 
-  const filterCountries = (value) => {
-    dispatch({ type: ACTIONS.FILTER_COUNTRIES, payload: value });
+  const regionCountries = (value) => {
+    dispatch({ type: ACTIONS.REGION_COUNTRIES, payload: value });
   };
 
   return (
@@ -26,7 +26,7 @@ export function AppContextProvider({ children }) {
       value={{
         state,
         searchCountries,
-        filterCountries,
+        regionCountries,
       }}
     >
       {children}

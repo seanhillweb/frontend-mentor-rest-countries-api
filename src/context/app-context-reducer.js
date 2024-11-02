@@ -1,6 +1,6 @@
 export const ACTIONS = {
   SEARCH_COUNTRIES: "SEARCH_COUNTRIES",
-  FILTER_COUNTRIES: "FILTER_COUNTRIES",
+  REGION_COUNTRIES: "REGION_COUNTRIES",
 };
 
 export function AppReducer(state, action) {
@@ -8,18 +8,10 @@ export function AppReducer(state, action) {
     case ACTIONS.SEARCH_COUNTRIES:
       return {
         ...state,
-        // todos: [...state.todos, action.payload],
       };
-    case ACTIONS.FILTER_COUNTRIES:
+    case ACTIONS.REGION_COUNTRIES:
       return {
         ...state,
-        // todos: state.todos.filter((item) => item.id !== action.payload),
-        // activeTodos: state.activeTodos.filter(
-        //   (item) => item.id !== action.payload
-        // ),
-        // completeTodos: state.completeTodos.filter(
-        //   (item) => item.id !== action.payload
-        // ),
       };
     default:
       return state;
