@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import FormSearch from "@/components/form-search";
 import FormFilter from "@/components/form-filter";
+import { Loader } from "@/components/loader";
 import { formatUrl } from "@/utils/format";
 
 const allCountriesUrl = "https://restcountries.com/v3.1/all/";
@@ -19,7 +20,6 @@ export default function Home() {
   const generateCountries = async () => {
     try {
       const response = await axios.get(allCountriesUrl);
-      console.log(response.data);
       setIsAllCountriesData(response.data);
     } catch (error) {
       console.error(error);
@@ -44,7 +44,7 @@ export default function Home() {
         </div>
         <h2 className="sr-only">Countries</h2>
         {loading ? (
-          <p>Loading...</p>
+          <Loader />
         ) : (
           <ul className="grid grid-cols-1 items-stretch gap-[26px] sm:grid-cols-2 sm:gap-[38px] md:grid-cols-3 md:gap-[57px] lg:grid-cols-4 lg:gap-[76px]">
             {isAllCountriesData

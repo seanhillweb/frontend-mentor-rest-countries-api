@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
-import { ButtonBack } from "@/components/button-back";
 import Link from "next/link";
+import { ButtonBack } from "@/components/button-back";
+import { Loader } from "@/components/loader";
 import { formatUrl } from "@/utils/format";
 
 const countryUrl = "https://restcountries.com/v3.1/name";
@@ -20,7 +21,6 @@ export default function CountryDetail({ params }) {
       const response = await axios.get(
         `${countryUrl}/${params.name}?fullText=true`
       );
-      console.log(response.data[0]);
       setIsCountry(response.data[0]);
     } catch (error) {
       console.error(error);
@@ -58,7 +58,7 @@ export default function CountryDetail({ params }) {
           <ButtonBack />
         </div>
         {loading ? (
-          <p>Loading...</p>
+          <Loader />
         ) : (
           <div className="flex flex-col items-start gap-20 md:flex-row">
             <div className="relative aspect-[16/10] w-full">
