@@ -1,21 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
-export default function FormSearch({ className }) {
+export default function FormSearch({ className, handleInput }) {
   const {
     register,
     handleSubmit,
-    reset,
+    watch,
     formState: { errors },
   } = useForm({});
 
   const onSubmit = (data) => {
-    reset();
+    handleInput(data.search);
   };
+
+  useEffect(() => {
+    const subscription = watch(handleSubmit(onSubmit));
+    return () => subscription.unsubscribe();
+  }, [handleSubmit, watch]);
 
   return (
     <form
@@ -28,14 +33,14 @@ export default function FormSearch({ className }) {
           <MagnifyingGlassIcon />
         </div>
         <input
-          {...register("search", { required: "Cannot be blank" })}
+          {...register("search")}
           id="search"
           name="search"
           placeholder="Search for a country..."
           className={`w-full rounded-md py-[18px] pl-[72px] pr-[18px] text-sm leading-none shadow-md focus:ring-transparent ${
             errors.search
               ? "border-red-500 hover:border-red-500 focus:border-red-500"
-              : "dark:bg-brand-darker-blue placeholder:text-brand-darker-blue dark:placeholder:text-brand-light-gray border-transparent bg-white"
+              : "border-transparent bg-white placeholder:text-brand-darker-blue dark:bg-brand-darker-blue dark:placeholder:text-brand-light-gray"
           }`}
           aria-invalid={errors.search ? "true" : "false"}
         />

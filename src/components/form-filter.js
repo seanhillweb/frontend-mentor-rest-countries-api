@@ -1,20 +1,25 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 
-export default function FormFilter({ state, className }) {
+export default function FormFilter({ className, handleInput }) {
   const {
     register,
     handleSubmit,
-    reset,
+    watch,
     formState: { errors },
-  } = useForm({});
+  } = useForm();
 
   const onSubmit = (data) => {
-    reset();
+    handleInput(data.filter);
   };
+
+  useEffect(() => {
+    const subscription = watch(handleSubmit(onSubmit));
+    return () => subscription.unsubscribe();
+  }, [handleSubmit, watch]);
 
   return (
     <form
@@ -24,37 +29,37 @@ export default function FormFilter({ state, className }) {
     >
       <div className="relative">
         <select
-          {...register("filter", { required: "Cannot be blank" })}
+          {...register("filter")}
           id="filter"
           name="filter"
           className={`w-full rounded-md py-[18px] pl-[18px] pr-[72px] text-sm leading-none shadow-md focus:ring-transparent ${
-            errors.search
+            errors.filter
               ? "border-red-500 hover:border-red-500 focus:border-red-500"
-              : "dark:bg-brand-darker-blue placeholder:text-brand-darker-blue dark:placeholder:text-brand-light-gray border-transparent bg-white"
+              : "border-transparent bg-white placeholder:text-brand-darker-blue dark:bg-brand-darker-blue dark:placeholder:text-brand-light-gray"
           }`}
-          aria-invalid={errors.search ? "true" : "false"}
+          aria-invalid={errors.filter ? "true" : "false"}
           defaultValue={""}
         >
-          <option value="" disabled hidden>
+          <option value="" disabled>
             Filter by Region
           </option>
           <option value="Africa">Africa</option>
+          <option value="Antarctic">Antarctic</option>
+          <option value="Americas">Americas</option>
           <option value="Asia">Asia</option>
-          <option value="America">America</option>
           <option value="Europe">Europe</option>
-          <option value="Oceanic">Oceanic</option>
+          <option value="Oceania">Oceania</option>
         </select>
       </div>
       <ErrorMessage
         errors={errors}
-        name="search"
+        name="filter"
         render={({ message }) => (
           <p role="alert" className="mt-1 text-sm italic text-red-500">
             {message}
           </p>
         )}
       />
-      <input type="submit" className="hidden" />
     </form>
   );
 }
