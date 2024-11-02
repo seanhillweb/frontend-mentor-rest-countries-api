@@ -15,14 +15,12 @@ export default function CountryDetail({ params }) {
   const [isCountry, setIsCountry] = useState({});
   const [isBorderCountry, setIsBorderCountry] = useState([]);
 
-  console.log(isCountry);
-  console.log(isBorderCountry);
-
   const generateCountry = async () => {
     try {
       const response = await axios.get(
         `${countryUrl}/${params.name}?fullText=true`
       );
+      console.log(response.data[0]);
       setIsCountry(response.data[0]);
     } catch (error) {
       console.error(error);
@@ -62,7 +60,7 @@ export default function CountryDetail({ params }) {
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <div className="flex flex-col items-center gap-20 md:flex-row">
+          <div className="flex flex-col items-start gap-20 md:flex-row">
             <div className="relative aspect-[16/10] w-full">
               <Image
                 src={isCountry.flags.svg}
@@ -75,47 +73,56 @@ export default function CountryDetail({ params }) {
               <h2 className="mb-8 text-3xl font-extrabold">
                 {isCountry.name.common}
               </h2>
-              <div className="grid grid-cols-2 gap-2">
-                <p>
-                  <span className="font-semibold">Native Name(s):</span>{" "}
-                  {Object.values(isCountry.name.nativeName)
-                    .map((value) => value.common)
-                    .join(", ")}
-                </p>
-                <p>
-                  <span className="font-semibold">Top Level Domain(s):</span>{" "}
-                  {Object.values(isCountry.tld)
-                    .map((value) => value)
-                    .join(", ")}
-                </p>
-                <p>
-                  <span className="font-semibold">Population:</span>{" "}
-                  {Number(isCountry.population).toLocaleString("en")}
-                </p>
-                <p>
-                  <span className="font-semibold">Currencies:</span>{" "}
-                  {Object.values(isCountry.currencies)
-                    .map((value) => value.name)
-                    .join(", ")}
-                </p>
-                <p>
-                  <span className="font-semibold">Region:</span>{" "}
-                  {isCountry.region}
-                </p>
-                <p>
-                  <span className="font-semibold">Languages:</span>{" "}
-                  {Object.values(isCountry.languages)
-                    .map((value) => value)
-                    .join(", ")}
-                </p>
-                <p>
-                  <span className="font-semibold">Sub Region:</span>{" "}
-                  {isCountry.subregion ? isCountry.subregion : "N/A"}
-                </p>
-                <p className="col-span-2">
-                  <span className="font-semibold">Capital:</span>{" "}
-                  {isCountry.capital ? isCountry.capital : "N/A"}
-                </p>
+              <div className="grid grid-cols-2 gap-x-4">
+                <div className="flex flex-col gap-y-2">
+                  <p>
+                    <span className="font-semibold">Native Name(s):</span>{" "}
+                    {Object.values(isCountry.name.nativeName)
+                      .map((value) => value.common)
+                      .join(", ")}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Population:</span>{" "}
+                    {Number(isCountry.population).toLocaleString("en")}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Region:</span>{" "}
+                    {isCountry.region}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Sub Region:</span>{" "}
+                    {isCountry.subregion ? isCountry.subregion : "N/A"}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Capital:</span>{" "}
+                    {isCountry.capital
+                      ? Object.values(isCountry.capital)
+                          .map((value) => value)
+                          .join(", ")
+                      : "N/A"}
+                    {}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-y-2">
+                  <p>
+                    <span className="font-semibold">Top Level Domain(s):</span>{" "}
+                    {Object.values(isCountry.tld)
+                      .map((value) => value)
+                      .join(", ")}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Currencies:</span>{" "}
+                    {Object.values(isCountry.currencies)
+                      .map((value) => value.name)
+                      .join(", ")}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Languages:</span>{" "}
+                    {Object.values(isCountry.languages)
+                      .map((value) => value)
+                      .join(", ")}
+                  </p>
+                </div>
               </div>
               {isCountry?.borders && (
                 <div className="mt-20 flex flex-row items-start gap-4">

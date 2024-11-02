@@ -17,6 +17,6 @@
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
-  @apply text-brand-dark-blue text-base dark:text-white;
+  @apply text-base text-brand-dark-blue dark:text-white;
   @apply bg-brand-light-gray dark:bg-brand-darkest-blue;
 }

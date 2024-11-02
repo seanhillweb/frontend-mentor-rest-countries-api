@@ -11,6 +11,7 @@ import "./globals.css";
 import { Nunito_Sans } from "next/font/google";
 import { AppThemeProvider } from "@/context/app-theme-provider";
 import Header from "@/components/header";
+import Attribution from "@/components/attribution";
 
 const nunitoSans = Nunito_Sans({
   weight: ["300", "600", "800"],
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
         <AppThemeProvider>
           <Header />
           {children}
+          <Attribution />
         </AppThemeProvider>
       </body>
       <Script src="/static/support-color-mode.js" />
