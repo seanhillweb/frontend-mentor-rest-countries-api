@@ -36,8 +36,8 @@ Your users should be able to:
 
 ### Links
 
-- Solution URL: [View on Netlify](https://fem-todo-app-seanhillweb.netlify.app/)
-- Project URL: [View on Github](https://github.com/seanhillweb/frontend-mentor-todo-app)
+- Solution URL: [View on Netlify](https://fem-rest-countries-api-seanhillweb.netlify.app/)
+- Project URL: [View on Github](https://github.com/seanhillweb/frontend-mentor-rest-countries-api)
 
 ## My process
 
@@ -48,189 +48,23 @@ Your users should be able to:
 - [Next.js](https://nextjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Next Themes](https://github.com/pacocoursey/next-themes)
+- [Axios](https://axios-http.com/)
 
 ### What I learned
 
-How to use a Reducer within a React project. I've had some exposure to this pattern before, but this was the perfect opportunity to dig into it a little further. I think I came away with a sold understanding, and clear structure.
+Two major concepts stand out with this project. The first being how to work with API endpoints. I chose Axios as my library to manage HTTP request; and I found it easy to implement and manage. The syntax is simple and easy to read.
 
-My reducer actions:
-
-```js
-export const ACTIONS = {
-  ADD_TODO: "ADD_TODO",
-  DELETE_TODO: "DELETE_TODO",
-  TOGGLE_TODO: "TOGGLE_TODO",
-  CLEAR_COMPLETE: "CLEAR_COMPLETE",
-  SHOW_ALL_TODOS: "SHOW_ALL_TODOS",
-  SHOW_ACTIVE_TODOS: "SHOW_ACTIVE_TODOS",
-  SHOW_COMPLETE_TODOS: "SHOW_COMPLETE_TODOS",
-};
-
-export function AppReducer(state, action) {
-  switch (action.type) {
-    case ACTIONS.ADD_TODO:
-      return {
-        ...state,
-        todos: [...state.todos, action.payload],
-      };
-    case ACTIONS.DELETE_TODO:
-      return {
-        ...state,
-        todos: state.todos.filter((item) => item.id !== action.payload),
-        activeTodos: state.activeTodos.filter(
-          (item) => item.id !== action.payload
-        ),
-        completeTodos: state.completeTodos.filter(
-          (item) => item.id !== action.payload
-        ),
-      };
-    case ACTIONS.TOGGLE_TODO:
-      return {
-        ...state,
-        todos: state.todos.map((item) => {
-          if (item.id === action.payload) {
-            return { ...item, completed: !item.completed };
-          }
-          return item;
-        }),
-        activeTodos: state.activeTodos.map((item) => {
-          if (item.id === action.payload) {
-            return { ...item, completed: !item.completed };
-          }
-          return item;
-        }),
-        completeTodos: state.completeTodos.map((item) => {
-          if (item.id === action.payload) {
-            return { ...item, completed: !item.completed };
-          }
-          return item;
-        }),
-      };
-    case ACTIONS.CLEAR_COMPLETE:
-      return {
-        ...state,
-        todos: state.todos.filter((item) => item.completed === false),
-        completeTodos: [],
-      };
-    case ACTIONS.SHOW_ALL_TODOS:
-      return {
-        ...state,
-        showTodos: true,
-        showActiveTodos: false,
-        showCompleteTodos: false,
-      };
-    case ACTIONS.SHOW_ACTIVE_TODOS:
-      return {
-        ...state,
-        activeTodos: [
-          ...state.todos.filter((item) => item.completed === false),
-        ],
-        showTodos: false,
-        showActiveTodos: true,
-        showCompleteTodos: false,
-      };
-    case ACTIONS.SHOW_COMPLETE_TODOS:
-      return {
-        ...state,
-        completeTodos: [
-          ...state.todos.filter((item) => item.completed === true),
-        ],
-        showTodos: false,
-        showActiveTodos: false,
-        showCompleteTodos: true,
-      };
-    default:
-      return state;
-  }
-}
-```
-
-How I setup the context within the application:
-
-```js
-"use client";
-
-import React, { createContext, useReducer, useContext } from "react";
-import { ACTIONS, AppReducer } from "@/context/reducer";
-
-export const AppContext = createContext();
-
-export function AppContextProvider({ children }) {
-  const initialState = {
-    todos: [],
-    activeTodos: [],
-    completeTodos: [],
-    showTodos: true,
-    showActiveTodos: false,
-    showCompleteTodos: false,
-  };
-
-  const [state, dispatch] = useReducer(AppReducer, initialState);
-
-  const addTodo = (object) => {
-    dispatch({ type: ACTIONS.ADD_TODO, payload: object });
-  };
-
-  const deleteTodo = (id) => {
-    dispatch({ type: ACTIONS.DELETE_TODO, payload: id });
-  };
-
-  const toggleTodo = (id) => {
-    dispatch({ type: ACTIONS.TOGGLE_TODO, payload: id });
-  };
-
-  const clearTodos = () => {
-    dispatch({ type: ACTIONS.CLEAR_COMPLETE });
-  };
-
-  const showAllTodos = () => {
-    dispatch({ type: ACTIONS.SHOW_ALL_TODOS });
-  };
-
-  const showActiveTodos = () => {
-    dispatch({ type: ACTIONS.SHOW_ACTIVE_TODOS });
-  };
-
-  const showCompleteTodos = () => {
-    dispatch({ type: ACTIONS.SHOW_COMPLETE_TODOS });
-  };
-
-  return (
-    <AppContext.Provider
-      value={{
-        state,
-        addTodo,
-        deleteTodo,
-        toggleTodo,
-        clearTodos,
-        showAllTodos,
-        showActiveTodos,
-        showCompleteTodos,
-      }}
-    >
-      {children}
-    </AppContext.Provider>
-  );
-}
-
-export function useAppContext() {
-  return useContext(AppContext);
-}
-```
+The second concept is manipulating the list of Countries inside the `.map()` - it's as easy as applying `.filter()` and creating your conditions for display. An enhancement I would like to try and refine in the future is including API endpoints to achieve a similar result.
 
 ### Continued development
 
-Something I would be interested in furthing develop would be the drag and drop interface. I already implemented a lot of new patterns with the project, and I thought that would be overload. A tool that I'm interested in using would be:
+Something I would be interested in develop further would be adding a "Load more" pagination. Seeing all of the countries at once could be a performance issue, and I think it would be better user experience to include pagination. I already implemented a lot of new patterns with the project, and I thought including that would be overload.
 
-- [React DnD](https://react-dnd.github.io/react-dnd/about)
-
-Has anyone with the Frontend Mentor community used this tool? What would it take to integrate into this project?
+I also wanted to push my development skills and setup a Context Provider and Reducer. I've used this development pattern in the past, but I was having issues implementing the filter functionality.
 
 ### Useful resources
 
-- [React useReducer Example](https://www.youtube.com/watch?v=kK_Wqx3RnHk&t=901s) - This video helped the inform the initial structure of the project. Easy to follow.
-- [Working Example by Elisabeth Leonhardt](https://www.elisabethleonhardt.com/projects/todo-app) - More often than not, finding similar projects can reveal avenues for solutions you wouldn't initally think of!
-- [Working Example by Andrei Ion](https://www.youtube.com/watch?v=9ew82H6U-n4&t=1016s) - Other example that provided a lot of guidence towards building this app.
+- [Simplify your Javascript - Use .map(), .reduce(), and .filter()](https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d) - A short and effective article outline the use cases for `.map()` and `.filter()` in Javascript.
 
 ## Author
 
