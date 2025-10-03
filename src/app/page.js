@@ -9,7 +9,8 @@ import FormFilter from "@/components/form-filter";
 import { Loader } from "@/components/loader";
 import { formatUrl } from "@/utils/format";
 
-const allCountriesUrl = "https://restcountries.com/v3.1/all/";
+const allCountriesUrl =
+  "https://restcountries.com/v3.1/all?fields=name,capital,region,flags";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
